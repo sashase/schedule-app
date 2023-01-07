@@ -84,14 +84,19 @@ for (let i = 0; i < 5; i++) {
 
     schedule.kp21[Object.keys(kp21)[i]]?.push({
       lesson: lessonKp ? lessonKp : "-",
-      class: classKp ? classKp : "N/A"
+      classRoom: classKp ? classKp : "N/A"
     })
     schedule.ipz21[Object.keys(ipz21)[i]]?.push({
       lesson: lessonIpz ? lessonIpz : "-",
-      class: classIpz ? classIpz : "N/A"
+      classRoom: classIpz ? classIpz : "N/A"
     })
   }
 }
+
+// console.log("kp21:")
+// console.log(schedule.kp21)
+// console.log("ipz21:")
+// console.log(schedule.ipz21)
 
 addToDb(schedule.kp21, "kp21")
 addToDb(schedule.ipz21, "ipz21")

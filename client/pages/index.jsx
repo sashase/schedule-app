@@ -13,37 +13,58 @@ export default function Home() {
       <div className="max-w-xs flex flex-col gap-10 text-center text-black text-4xl m-auto">
         <Link
           className="bg-lightPurple py-6 px-18 rounded-2xl shadow-def"
-          href={{ pathname: "/schedule", query: { group: "kp21" } }}>
+          href={{
+            pathname: "/schedule",
+            query: { group: "kp21", day: "monday" }
+          }}>
           КП-21
         </Link>
         <Link
           className="bg-lightPurple py-6 px-18 rounded-2xl shadow-def"
-          href={{ pathname: "/schedule", query: { group: "kp22" } }}>
+          href={{
+            pathname: "/schedule",
+            query: { group: "kp22", day: "monday" }
+          }}>
           КП-22
         </Link>
         <Link
           className="bg-lightPurple py-6 px-18 rounded-2xl shadow-def"
-          href={{ pathname: "/schedule", query: { group: "ksr21" } }}>
+          href={{
+            pathname: "/schedule",
+            query: { group: "ksr21", day: "monday" }
+          }}>
           КСР-21
         </Link>
         <Link
           className="bg-lightPurple py-6 px-18 rounded-2xl shadow-def"
-          href={{ pathname: "/schedule", query: { group: "kt21" } }}>
+          href={{
+            pathname: "/schedule",
+            query: { group: "kt21", day: "monday" }
+          }}>
           КТ-21
         </Link>
         <Link
           className="bg-lightPurple py-6 px-18 rounded-2xl shadow-def"
-          href={{ pathname: "/schedule", query: { group: "km21" } }}>
+          href={{
+            pathname: "/schedule",
+            query: { group: "km21", day: "monday" }
+          }}>
           КМ-21
         </Link>
         <Link
           className="bg-lightPurple py-6 px-18 rounded-2xl shadow-def"
-          href={{ pathname: "/schedule", query: { group: "ipz21" } }}>
+          href={{
+            pathname: "/schedule",
+            query: { group: "ipz21", day: "monday" }
+          }}>
           ІПЗ-21
         </Link>
         <Link
           className="bg-lightPurple py-6 px-18 rounded-2xl shadow-def"
-          href={{ pathname: "/schedule", query: { group: "kn21" } }}>
+          href={{
+            pathname: "/schedule",
+            query: { group: "kn21", day: "monday" }
+          }}>
           КН-21
         </Link>
       </div>
