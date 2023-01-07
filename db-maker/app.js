@@ -13,6 +13,8 @@ const file = XLSX.readFile("./file.xlsx")
 
 const workbook = file.Sheets[file.SheetNames[0]]
 
+const groups = ["kp21", "kp22", "ksr21", "kt21", "km21", "ipz21", "kn21"]
+
 let schedule = {
   kp21: {
     monday: [],
@@ -65,38 +67,72 @@ let schedule = {
   }
 }
 
-const addToDb = async (schedule, docName) => {
+const startingRows = [2, 8, 14, 20, 26]
+
+const startingColumns = {
+  kp21: {
+    lesson: "A",
+    teacher: "B",
+    classRoom: "C"
+  },
+  kp22: {
+    lesson: "D",
+    teacher: "E",
+    classRoom: "F"
+  },
+  ksr21: {
+    lesson: "G",
+    teacher: "H",
+    classRoom: "I"
+  },
+  kt21: {
+    lesson: "J",
+    teacher: "K",
+    classRoom: "L"
+  },
+  km21: {
+    lesson: "M",
+    teacher: "N",
+    classRoom: "O"
+  },
+  ipz21: {
+    lesson: "P",
+    teacher: "Q",
+    classRoom: "R"
+  },
+  kn21: {
+    lesson: "S",
+    teacher: "T",
+    classRoom: "U"
+  }
+}
+
+const addToDb = (group) => {
+  for (let i = 0; i < 5; i++) {
+    for (let j = 0; j < 6; j++) {
+      const lesson =
+        workbook[`${startingColumns[group].lesson}${startingRows[i] + j}`]?.v
+      const teacher =
+        workbook[`${startingColumns[group].teacher}${startingRows[i] + j}`]?.v
+      const classRoom =
+        workbook[`${startingColumns[group].classRoom}${startingRows[i] + j}`]?.v
+
+      schedule[group][Object.keys(schedule[group])[i]].push({
+        lesson: lesson ? lesson : "",
+        teacher: teacher ? teacher : "",
+        classRoom: classRoom ? classRoom : ""
+      })
+    }
+  }
+}
+
+const uploadDb = async (schedule, docName) => {
   await setDoc(doc(db, "schedule", docName), {
     ...schedule
   })
 }
 
-const kp21 = schedule[Object.keys(schedule)[0]]
-const ipz21 = schedule[Object.keys(schedule)[5]]
-const startRow = [1, 7, 13, 19, 25]
-
-for (let i = 0; i < 5; i++) {
-  for (let j = 0; j < 6; j++) {
-    const lessonKp = workbook[`A${startRow[i] + j}`]?.v
-    const classKp = workbook[`B${startRow[i] + j}`]?.v
-    const lessonIpz = workbook[`C${startRow[i] + j}`]?.v
-    const classIpz = workbook[`D${startRow[i] + j}`]?.v
-
-    schedule.kp21[Object.keys(kp21)[i]]?.push({
-      lesson: lessonKp ? lessonKp : "-",
-      classRoom: classKp ? classKp : "N/A"
-    })
-    schedule.ipz21[Object.keys(ipz21)[i]]?.push({
-      lesson: lessonIpz ? lessonIpz : "-",
-      classRoom: classIpz ? classIpz : "N/A"
-    })
-  }
+for (let i = 0; i < groups.length; i++) {
+  addToDb(groups[i])
+  uploadDb(schedule[groups[i]], groups[i])
 }
-
-// console.log("kp21:")
-// console.log(schedule.kp21)
-// console.log("ipz21:")
-// console.log(schedule.ipz21)
-
-addToDb(schedule.kp21, "kp21")
-addToDb(schedule.ipz21, "ipz21")
