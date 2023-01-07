@@ -82,7 +82,6 @@ switch (date.month) {
 }
 
 export default function Nav() {
-
   return (
     <div>
       <nav className="flex justify-between items-center my-7">
@@ -93,7 +92,7 @@ export default function Nav() {
           {output.weekDay}, {output.day} {output.month}.
         </h2>
       </nav>
-      <hr className="border-1 border-purple border-opacity-10 mb-7" />
+      <hr className="border-1 border-purple border-opacity-10"/>
     </div>
   )
 }
