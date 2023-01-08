@@ -1,6 +1,7 @@
 import Head from "next/head"
 import Link from "next/link"
 import groups from "../modules/groups"
+import { currentDate } from "../modules/date"
 
 export default function Home() {
   return (
@@ -19,7 +20,11 @@ export default function Home() {
               className="bg-lightPurple py-6 px-18 rounded-2xl shadow-def"
               href={{
                 pathname: "/schedule",
-                query: { group: group.query, day: "monday" }
+                query: {
+                  group: group.query,
+                  weekDay: currentDate.weekDay.englishName,
+                  day: currentDate.day
+                }
               }}>
               {group.name}
             </Link>

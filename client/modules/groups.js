@@ -24,7 +24,7 @@ export default [
     query: "ipz21"
   },
   {
-    name: "КП-21",
+    name: "КН-21",
     query: "kn21"
   }
 ]

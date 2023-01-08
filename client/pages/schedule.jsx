@@ -4,28 +4,32 @@ import { db } from "../utils/firebase.js"
 import { doc, onSnapshot } from "firebase/firestore"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
-// import { output } from "../components/Nav.jsx"
+import { weekDays } from "../modules/date"
 
 export default function Schedule() {
-  const [currentDay, setCurrentDay] = useState("")
+  const [currentWeekDay, setCurrentWeekDay] = useState("")
+  const [currentDay, setCurrentDay] = useState()
   const [currentSchedule, setCurrentSchedule] = useState("")
   const route = useRouter()
 
   const getSchedule = async () => {
     const docRef = doc(db, "schedule", route.query.group)
     const unsubscribe = onSnapshot(docRef, (snapshot) => {
-      setCurrentSchedule(snapshot.data()[currentDay])
+      setCurrentSchedule(snapshot.data()[currentWeekDay])
     })
     return unsubscribe
   }
 
   useEffect(() => {
+    route.query.weekDay == "saturday" || route.query.weekDay == "sunday"
+      ? setCurrentWeekDay("monday")
+      : setCurrentWeekDay(route.query.weekDay)
     setCurrentDay(route.query.day)
-  }, [route.query.day])
+  }, [route.query.weekDay])
 
   // useEffect(() => {
   //   if (!route.isReady) return
-  //   setCurrentDay(route.query.day)
+  //   setCurrentWeekDay(route.query.weekDay)
   //   getSchedule()
   // }, [route.query])
 
@@ -37,88 +41,24 @@ export default function Schedule() {
         <title>Schedule</title>
       </Head>
       <div>
-        <div className="flex items-center gap-10 text-center text-2xl font-bold lg:mx-40 sm:mx-0 my-7">
-          <Link
-            href={{
-              pathname: "/schedule",
-              query: { ...route.query, day: "monday" }
-            }}
-            className={
-              currentDay == "monday" ? "text-purple text-3xl" : "text-darkGray"
-            }>
-            Пн
-            <br />
-            <span
-              className={currentDay == "monday" ? "underline" : "text-black"}>
-              2
-            </span>
-          </Link>
-          <Link
-            href={{
-              pathname: "/schedule",
-              query: { ...route.query, day: "tuesday" }
-            }}
-            className={
-              currentDay == "tuesday" ? "text-purple text-3xl" : "text-darkGray"
-            }>
-            Вт
-            <br />
-            <span
-              className={currentDay == "tuesday" ? "underline" : "text-black"}>
-              3
-            </span>
-          </Link>
-          <Link
-            href={{
-              pathname: "/schedule",
-              query: { ...route.query, day: "wednesday" }
-            }}
-            className={
-              currentDay == "wednesday"
-                ? "text-purple text-3xl"
-                : "text-darkGray"
-            }>
-            Ср
-            <br />
-            <span
-              className={
-                currentDay == "wednesday" ? "underline" : "text-black"
-              }>
-              4
-            </span>
-          </Link>
-          <Link
-            href={{
-              pathname: "/schedule",
-              query: { ...route.query, day: "thursday" }
-            }}
-            className={
-              currentDay == "thursday"
-                ? "text-purple text-3xl"
-                : "text-darkGray"
-            }>
-            Чт
-            <br />
-            <span
-              className={currentDay == "thursday" ? "underline" : "text-black"}>
-              5
-            </span>
-          </Link>
-          <Link
-            href={{
-              pathname: "/schedule",
-              query: { ...route.query, day: "friday" }
-            }}
-            className={
-              currentDay == "friday" ? "text-purple text-3xl" : "text-darkGray"
-            }>
-            Пт
-            <br />
-            <span
-              className={currentDay == "friday" ? "underline" : "text-black"}>
-              6
-            </span>
-          </Link>
+        <div className="flex items-center gap-10 text-center text-2xl font-bold lg:mx-40 md:mx-20 sm:mx-0 my-7">
+          {weekDays.map((weekDay) => {
+            return (
+              <Link
+                key={weekDay.englishName}
+                href={{
+                  pathname: "/schedule",
+                  query: { ...route.query, weekDay: weekDay.englishName }
+                }}
+                className={
+                  currentWeekDay == weekDay.englishName
+                    ? "text-purple text-3xl"
+                    : "text-darkGray"
+                }>
+                {weekDay.shortName}
+              </Link>
+            )
+          })}
         </div>
         <div className="flex gap-10 my-14">
           <div className="flex gap-5">
@@ -160,9 +100,10 @@ export default function Schedule() {
           </div>
           <div className="flex flex-col gap-10 max-w-xs">
             {currentSchedule &&
-              currentSchedule.map((lesson) => {
+              currentSchedule.map((lesson, key) => {
                 return (
                   <div
+                    key={key}
                     className={
                       lesson.lesson
                         ? "flex flex-col justify-between shadow-def rounded-3xl py-3 px-5 min-h-[100px]"
