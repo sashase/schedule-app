@@ -11,11 +11,64 @@ XLSX.set_cptable(cpexcel)
 
 const file = XLSX.readFile("./file.xlsx")
 
-const workbook = file.Sheets[file.SheetNames[0]]
+const workbook1 = file.Sheets[file.SheetNames[0]]
+const workbook2 = file.Sheets[file.SheetNames[1]]
 
 const groups = ["kp21", "kp22", "ksr21", "kt21", "km21", "ipz21", "kn21"]
 
-let schedule = {
+let schedule1 = {
+  kp21: {
+    monday: [],
+    tuesday: [],
+    wednesday: [],
+    thursday: [],
+    friday: []
+  },
+  kp22: {
+    monday: [],
+    tuesday: [],
+    wednesday: [],
+    thursday: [],
+    friday: []
+  },
+  ksr21: {
+    monday: [],
+    tuesday: [],
+    wednesday: [],
+    thursday: [],
+    friday: []
+  },
+  kt21: {
+    monday: [],
+    tuesday: [],
+    wednesday: [],
+    thursday: [],
+    friday: []
+  },
+  km21: {
+    monday: [],
+    tuesday: [],
+    wednesday: [],
+    thursday: [],
+    friday: []
+  },
+  ipz21: {
+    monday: [],
+    tuesday: [],
+    wednesday: [],
+    thursday: [],
+    friday: []
+  },
+  kn21: {
+    monday: [],
+    tuesday: [],
+    wednesday: [],
+    thursday: [],
+    friday: []
+  }
+}
+
+let schedule2 = {
   kp21: {
     monday: [],
     tuesday: [],
@@ -110,29 +163,47 @@ const startingColumns = {
 const addToDb = (group) => {
   for (let i = 0; i < 5; i++) {
     for (let j = 0; j < 6; j++) {
-      const lesson =
-        workbook[`${startingColumns[group].lesson}${startingRows[i] + j}`]?.v
-      const teacher =
-        workbook[`${startingColumns[group].teacher}${startingRows[i] + j}`]?.v
-      const classRoom =
-        workbook[`${startingColumns[group].classRoom}${startingRows[i] + j}`]?.v
+      const lesson1 =
+        workbook1[`${startingColumns[group].lesson}${startingRows[i] + j}`]?.v
+      const teacher1 =
+        workbook1[`${startingColumns[group].teacher}${startingRows[i] + j}`]?.v
+      const classRoom1 =
+        workbook1[`${startingColumns[group].classRoom}${startingRows[i] + j}`]
+          ?.v
 
-      schedule[group][Object.keys(schedule[group])[i]].push({
-        lesson: lesson ? lesson : "",
-        teacher: teacher ? teacher : "",
-        classRoom: classRoom ? classRoom : ""
+      const lesson2 =
+        workbook2[`${startingColumns[group].lesson}${startingRows[i] + j}`]?.v
+      const teacher2 =
+        workbook2[`${startingColumns[group].teacher}${startingRows[i] + j}`]?.v
+      const classRoom2 =
+        workbook2[`${startingColumns[group].classRoom}${startingRows[i] + j}`]
+          ?.v
+
+      schedule1[group][Object.keys(schedule1[group])[i]].push({
+        lesson: lesson1 ? lesson1 : "",
+        teacher: teacher1 ? teacher1 : "",
+        classRoom: classRoom1 ? classRoom1 : ""
+      })
+
+      schedule2[group][Object.keys(schedule2[group])[i]].push({
+        lesson: lesson2 ? lesson2 : "",
+        teacher: teacher2 ? teacher2 : "",
+        classRoom: classRoom2 ? classRoom2 : ""
       })
     }
   }
 }
 
-const uploadDb = async (schedule, docName) => {
-  await setDoc(doc(db, "schedule", docName), {
-    ...schedule
+const uploadDb = async (schedule1, schedule2, docName) => {
+  await setDoc(doc(db, "schedule1", docName), {
+    ...schedule1
+  })
+  await setDoc(doc(db, "schedule2", docName), {
+    ...schedule2
   })
 }
 
 for (let i = 0; i < groups.length; i++) {
   addToDb(groups[i])
-  uploadDb(schedule[groups[i]], groups[i])
+  uploadDb(schedule1[groups[i]], schedule2[groups[i]], groups[i])
 }
