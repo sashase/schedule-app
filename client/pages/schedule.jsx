@@ -5,15 +5,16 @@ import { doc, onSnapshot } from "firebase/firestore"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { weekDays } from "../modules/date"
+import timeOfLessons from "../modules/timeOfLessons.js"
 
 export default function Schedule() {
   const [currentWeekDay, setCurrentWeekDay] = useState("")
   const [currentDay, setCurrentDay] = useState()
   const [currentSchedule, setCurrentSchedule] = useState("")
-  const route = useRouter()
+  const { query, isReady } = useRouter()
 
   const getSchedule = async () => {
-    const docRef = doc(db, "schedule", route.query.group)
+    const docRef = doc(db, query.week, query.group)
     const unsubscribe = onSnapshot(docRef, (snapshot) => {
       setCurrentSchedule(snapshot.data()[currentWeekDay])
     })
@@ -21,19 +22,13 @@ export default function Schedule() {
   }
 
   useEffect(() => {
-    route.query.weekDay == "saturday" || route.query.weekDay == "sunday"
+    query.weekDay == "saturday" || query.weekDay == "sunday"
       ? setCurrentWeekDay("monday")
-      : setCurrentWeekDay(route.query.weekDay)
-    setCurrentDay(route.query.day)
-  }, [route.query.weekDay])
-
-  // useEffect(() => {
-  //   if (!route.isReady) return
-  //   setCurrentWeekDay(route.query.weekDay)
-  //   getSchedule()
-  // }, [route.query])
-
-  getSchedule()
+      : setCurrentWeekDay(query.weekDay)
+    setCurrentDay(query.day)
+  }, [query])
+  
+  if (isReady) getSchedule()
 
   return (
     <div>
@@ -41,14 +36,14 @@ export default function Schedule() {
         <title>Schedule</title>
       </Head>
       <div>
-        <div className="flex items-center gap-10 text-center text-2xl font-bold lg:mx-40 md:mx-20 sm:mx-0 my-7">
+        <div className="flex flex-wrap items-center gap-10 text-center text-2xl font-bold lg:mx-40 md:mx-20 mx-0 my-7">
           {weekDays.map((weekDay) => {
             return (
               <Link
                 key={weekDay.englishName}
                 href={{
                   pathname: "/schedule",
-                  query: { ...route.query, weekDay: weekDay.englishName }
+                  query: { ...query, weekDay: weekDay.englishName }
                 }}
                 className={
                   currentWeekDay == weekDay.englishName
@@ -59,28 +54,50 @@ export default function Schedule() {
               </Link>
             )
           })}
+          <div className="flex gap-5 text-sm font-bold lg:m-0 m-auto">
+            <Link
+              className={
+                query.week == "schedule1"
+                  ? "bg-purple text-white shadow-def rounded-3xl py-3 px-5 transition-all duration-300 outline-none"
+                  : "bg-grayPurple text-black shadow-def rounded-3xl py-3 px-5 transition-all duration-300 outline-none"
+              }
+              href={{
+                pathname: "/schedule",
+                query: {
+                  ...query,
+                  week: "schedule1"
+                }
+              }}>
+              1 тиждень
+            </Link>
+            <Link
+              className={
+                query.week == "schedule2"
+                  ? "bg-purple text-white shadow-def rounded-3xl py-3 px-5 transition-all duration-300 outline-none"
+                  : "bg-grayPurple text-black shadow-def rounded-3xl py-3 px-5 transition-all duration-300 outline-none"
+              }
+              href={{
+                pathname: "/schedule",
+                query: {
+                  ...query,
+                  week: "schedule2"
+                }
+              }}>
+              2 тиждень
+            </Link>
+          </div>
         </div>
         <div className="flex gap-10 my-14">
           <div className="flex gap-5">
             <div className="flex flex-col gap-28 items-center max-w-min text-center text-lg leading-5 font-bold mt-4">
-              <p>
-                10:00 <span className="font-normal text-sm">11:20</span>
-              </p>
-              <p>
-                11:30 <span className="font-normal text-sm">12:50</span>
-              </p>
-              <p>
-                13:10 <span className="font-normal text-sm">14:30</span>
-              </p>
-              <p>
-                14:40 <span className="font-normal text-sm">16:00</span>
-              </p>
-              <p>
-                16:10 <span className="font-normal text-sm">17:30</span>
-              </p>
-              <p>
-                17:40 <span className="font-normal text-sm">19:00</span>
-              </p>
+              {timeOfLessons.map((time) => {
+                return (
+                  <p key={time.start}>
+                    {time.start}{" "}
+                    <span className="font-normal text-sm">{time.end}</span>
+                  </p>
+                )
+              })}
             </div>
             <div className="flex flex-col gap-2 items-center mt-5">
               <div className="w-4 h-4 block rounded-full border-purple border-2" />
