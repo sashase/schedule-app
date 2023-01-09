@@ -1,7 +1,7 @@
 import Head from "next/head"
 import Link from "next/link"
 import { db } from "../utils/firebase.js"
-import { doc, onSnapshot } from "firebase/firestore"
+import { doc, getDoc } from "firebase/firestore"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { weekDays } from "../modules/date"
@@ -15,10 +15,8 @@ export default function Schedule() {
 
   const getSchedule = async () => {
     const docRef = doc(db, query.week, query.group)
-    const unsubscribe = onSnapshot(docRef, (snapshot) => {
-      setCurrentSchedule(snapshot.data()[currentWeekDay])
-    })
-    return unsubscribe
+    const docSnap = await getDoc(docRef)
+    setCurrentSchedule(docSnap.data()[currentWeekDay])
   }
 
   useEffect(() => {
