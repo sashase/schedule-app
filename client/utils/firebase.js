@@ -16,6 +16,6 @@ const firebaseConfig = {
 }
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig)
+const app = initializeApp(firebaseConfig, "schedule-app-dev")
 
 export const db = getFirestore(app)

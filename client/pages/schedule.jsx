@@ -12,6 +12,7 @@ import Lesson from "../components/Lesson.jsx"
 export default function Schedule() {
   const [currentWeekDay, setCurrentWeekDay] = useState("")
   const [currentDay, setCurrentDay] = useState()
+  const [currentWeek, setCurrentWeek] = useState()
   const [currentSchedule, setCurrentSchedule] = useState("")
   const { query, isReady } = useRouter()
 
@@ -26,9 +27,12 @@ export default function Schedule() {
       ? setCurrentWeekDay("monday")
       : setCurrentWeekDay(query.weekDay)
     setCurrentDay(query.day)
+    setCurrentWeek(query.week)
   }, [query])
 
-  if (isReady) getSchedule()
+  useEffect(() => {
+    if (isReady) getSchedule()
+  }, [currentWeekDay, currentWeek])
 
   return (
     <div>
