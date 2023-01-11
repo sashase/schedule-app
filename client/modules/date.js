@@ -1,15 +1,18 @@
 const date = {
   weekDay: new Date().getDay(),
-  day: new Date().getDate(),
   month: new Date().getMonth()
 }
 
 export let currentDate = {
+  time: {
+    hours: new Date().getHours(),
+    minutes: new Date().getMinutes()
+  },
   weekDay: {
     shortName: "",
     englishName: ""
   },
-  day: date.day,
+  day: new Date().getDate(),
   month: ""
 }
 
@@ -40,7 +43,7 @@ switch (date.weekDay) {
     break
   case 4:
     currentDate.weekDay.shortName = "Чт"
-    currentDate.weekDay.shortName = "thursday"
+    currentDate.weekDay.englishName = "thursday"
     break
   case 5:
     currentDate.weekDay.shortName = "Пт"

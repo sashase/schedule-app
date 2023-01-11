@@ -3,17 +3,24 @@ import { db } from "../utils/firebase.js"
 import { doc, getDoc } from "firebase/firestore"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
-import { weekDays } from "../modules/date"
+import { currentDate, weekDays } from "../modules/date"
 import timeOfLessons from "../modules/timeOfLessons.js"
 import WeekDay from "../components/WeekDay.jsx"
 import WeekButtons from "../components/WeekButtons.jsx"
 import Lesson from "../components/Lesson.jsx"
+import getCurrentLesson from "../modules/getCurrentLesson.js"
 
 export default function Schedule() {
-  const [currentWeekDay, setCurrentWeekDay] = useState("")
-  const [currentDay, setCurrentDay] = useState()
   const [currentWeek, setCurrentWeek] = useState()
+  const [currentWeekDay, setCurrentWeekDay] = useState("")
+  const [currentTime, setCurrentTime] = useState({
+    hours: currentDate.time.hours,
+    minutes: currentDate.time.minutes
+  })
   const [currentSchedule, setCurrentSchedule] = useState("")
+  const [currentLesson, setCurrentLesson] = useState(
+    getCurrentLesson(`${currentTime.hours}:${currentTime.minutes}`)
+  )
   const { query, isReady } = useRouter()
 
   const getSchedule = async () => {
@@ -26,7 +33,6 @@ export default function Schedule() {
     query.weekDay == "saturday" || query.weekDay == "sunday"
       ? setCurrentWeekDay("monday")
       : setCurrentWeekDay(query.weekDay)
-    setCurrentDay(query.day)
     setCurrentWeek(query.week)
   }, [query])
 
@@ -39,8 +45,8 @@ export default function Schedule() {
       <Head>
         <title>Schedule</title>
       </Head>
-      <div>
-        <div className="flex flex-wrap items-center gap-10 text-center text-2xl font-bold lg:mx-40 md:mx-20 mx-0 my-7">
+      <div className="lg:mx-20 md:mx-10 mx-0">
+        <div className="flex flex-wrap items-center gap-10 text-center text-2xl font-bold my-7">
           {weekDays.map((weekDay, key) => {
             return (
               <WeekDay
@@ -54,47 +60,37 @@ export default function Schedule() {
           })}
           <WeekButtons query={query} />
         </div>
-        <div className="flex gap-10 my-14">
-          <div className="flex gap-5">
-            <div className="flex flex-col gap-28 items-center max-w-min text-center text-lg leading-5 font-bold mt-4">
-              {timeOfLessons.map((time) => {
-                return (
-                  <p key={time.start}>
-                    {time.start}{" "}
-                    <span className="font-normal text-sm">{time.end}</span>
-                  </p>
-                )
-              })}
-            </div>
-            <div className="flex flex-col gap-2 items-center mt-5">
-              <div className="w-4 h-4 block rounded-full border-purple border-2" />
-              <div className="w-1 h-[15%] bg-purple" />
-              <div className="w-4 h-4 block rounded-full border-purple border-2" />
-              <div className="w-1 h-[15%] bg-purple" />
-              <div className="w-4 h-4 block rounded-full border-purple border-2" />
-              <div className="w-1 h-[15%] bg-purple" />
-              <div className="w-4 h-4 block rounded-full border-purple border-2" />
-              <div className="w-1 h-[15%] bg-purple" />
-              <div className="w-4 h-4 block rounded-full border-purple border-2" />
-              <div className="w-1 h-[15%] bg-purple" />
-              <div className="w-4 h-4 block rounded-full border-purple border-2">
-                <div className="w-2 h-2 bg-purple rounded-full m-0.5"></div>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-10 max-w-xs">
-            {currentSchedule &&
-              currentSchedule.map((lesson, key) => {
-                return (
-                  <Lesson
-                    key={key}
-                    lesson={lesson.lesson}
-                    teacher={lesson.teacher}
-                    classRoom={lesson.classRoom}
-                  />
-                )
-              })}
-          </div>
+        <div className="flex flex-col gap-10 my-14">
+          {currentSchedule &&
+            currentSchedule.map((lesson, key) => {
+              return (
+                <div className="flex gap-3 items-center" key={key}>
+                  <div
+                    className={`flex gap-3 items-center text-center text-lg leading-5 font-bold ${
+                      currentLesson == key &&
+                      currentWeekDay == currentDate.weekDay.englishName
+                        ? "text-purple"
+                        : ""
+                    }`}>
+                    <p className="w-14">
+                      {timeOfLessons[key].start}
+                      <br />
+                      <span className="font-normal text-sm">
+                        {timeOfLessons[key].end}
+                      </span>
+                    </p>
+                    <div className="w-1 h-[15%] bg-purple" />
+                  </div>
+                  <div className="max-w-xs">
+                    <Lesson
+                      lesson={lesson.lesson}
+                      teacher={lesson.teacher}
+                      classRoom={lesson.classRoom}
+                    />
+                  </div>
+                </div>
+              )
+            })}
         </div>
       </div>
     </div>

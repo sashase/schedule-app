@@ -23,7 +23,6 @@ export default function Home() {
                 query: {
                   group: group.query,
                   weekDay: currentDate.weekDay.englishName,
-                  day: currentDate.day,
                   week: "schedule1"
                 }
               }}>
