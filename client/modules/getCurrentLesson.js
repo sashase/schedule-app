@@ -1,5 +1,9 @@
 const lessonTimes = [
   {
+    start: "8:30",
+    end: "9:50"
+  },
+  {
     start: "10:00",
     end: "11:20"
   },
@@ -25,11 +29,11 @@ const lessonTimes = [
   }
 ]
 
-const getCurrentLesson = (value) => {
+const getCurrentLesson = (value, year) => {
   let res
   lessonTimes.forEach((lesson, key) => {
     if (value >= lesson.start && value <= lesson.end) {
-      res = key
+      year == 1 ? (res = key) : (res = key - 1)
     }
   })
   return res

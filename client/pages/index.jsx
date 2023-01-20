@@ -13,8 +13,8 @@ export default function Home() {
       </Head>
       <div className="max-w-xs lg:max-w-lg sm:max-w-md m-auto">
         <div className="flex sm:gap-36 gap-5 m-auto w-100">
-          <GroupsList year={"I курс"} groups={groups[0]} />
-          <GroupsList year={"II курс"} groups={groups[1]} />
+          <GroupsList year={"I курс"} yearIndex={0} groups={groups[0]} />
+          <GroupsList year={"II курс"} yearIndex={1} groups={groups[1]} />
         </div>
       </div>
     </div>
