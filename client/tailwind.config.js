@@ -18,7 +18,8 @@ module.exports = {
         darkGray: "#303030"
       },
       boxShadow: {
-        def: "0px 3px 20px rgba(0, 0, 0, 0.25)"
+        def: "0px 3px 20px rgba(0, 0, 0, 0.25)",
+        groups: "0px 3px 15px rgba(0, 0, 0, 0.1)"
       }
     }
   },

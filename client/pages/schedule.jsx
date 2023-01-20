@@ -4,11 +4,11 @@ import { doc, getDoc } from "firebase/firestore"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { currentDate, weekDays } from "../modules/date"
-import timeOfLessons from "../modules/timeOfLessons.js"
 import WeekDay from "../components/WeekDay.jsx"
 import WeekButtons from "../components/WeekButtons.jsx"
 import Lesson from "../components/Lesson.jsx"
 import getCurrentLesson from "../modules/getCurrentLesson.js"
+import Timeline from "../components/Timeline.jsx"
 
 export default function Schedule() {
   const [currentWeek, setCurrentWeek] = useState()
@@ -64,23 +64,13 @@ export default function Schedule() {
           {currentSchedule &&
             currentSchedule.map((lesson, key) => {
               return (
-                <div className="flex gap-3 items-center" key={key}>
-                  <div
-                    className={`flex gap-3 items-center text-center text-lg leading-5 font-bold ${
-                      currentLesson == key &&
-                      currentWeekDay == currentDate.weekDay.englishName
-                        ? "text-purple"
-                        : ""
-                    }`}>
-                    <p className="w-14">
-                      {timeOfLessons[key].start}
-                      <br />
-                      <span className="font-normal text-sm">
-                        {timeOfLessons[key].end}
-                      </span>
-                    </p>
-                    <div className="w-1 h-[15%] bg-purple" />
-                  </div>
+                <div className="flex gap-8 items-center" key={key}>
+                  <Timeline
+                    lessonNum={key}
+                    currentWeekDay={currentWeekDay}
+                    currentLesson={currentLesson}
+                    year={query.year}
+                  />
                   <div className="max-w-xs">
                     <Lesson
                       lesson={lesson.lesson}
