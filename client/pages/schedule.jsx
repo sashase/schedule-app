@@ -27,6 +27,13 @@ export default function Schedule() {
 
   useEffect(() => {
     if (isReady) getSchedule()
+    setCurrentWeekDay(
+      `${
+        query.weekDay == "saturday" || query.weekDay == "sunday"
+          ? "monday"
+          : query.weekDay
+      }`
+    )
   }, [query.weekDay, query.week])
 
   return (
@@ -42,11 +49,7 @@ export default function Schedule() {
                 key={key}
                 weekDay={weekDay.englishName}
                 weekDayShortName={weekDay.shortName}
-                currentWeekDay={
-                  query.weekDay == "saturday" || query.weekDay == "sunday"
-                    ? "monday"
-                    : query.weekDay
-                }
+                currentWeekDay={currentWeekDay}
                 query={query}
               />
             )
@@ -55,14 +58,14 @@ export default function Schedule() {
         </div>
         <div className="flex flex-col gap-10 my-14">
           {currentSchedule &&
-            currentSchedule[`${query.weekDay}`].map((lesson, key) => {
+            currentSchedule[currentWeekDay].map((lesson, key) => {
               return (
                 <Fragment key={key}>
                   {lesson.lesson != "" && (
                     <div className="flex gap-8 items-center" key={key}>
                       <Timeline
                         lessonNum={key}
-                        currentWeekDay={query.weekDay}
+                        currentWeekDay={currentWeekDay}
                         currentLesson={getCurrentLesson(
                           `${currentTime.hours}:${currentTime.minutes}`,
                           query.year
