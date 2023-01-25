@@ -12,10 +12,16 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="max-w-xs lg:max-w-lg sm:max-w-md m-auto">
-        <div className="flex sm:gap-36 gap-5 m-auto w-100">
+        <div className="flex sm:gap-36 gap-5 m-auto w-100 my-10">
           <GroupsList year={"I курс"} yearIndex={0} groups={groups[0]} />
           <GroupsList year={"II курс"} yearIndex={1} groups={groups[1]} />
         </div>
+        <GroupsList
+          year={"II Курс дистанційно"}
+          yearIndex={2}
+          groups={groups[2]}
+          className=""
+        />
       </div>
     </div>
   )

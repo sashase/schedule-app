@@ -1,10 +1,9 @@
 import { currentDate } from "../modules/date"
 import Link from "next/link"
-import groups from "../modules/groups"
 
 export default function GroupsList(props) {
   return (
-    <div className="flex flex-col gap-3 text-center text-black  mx-auto my-10">
+    <div className="flex flex-col gap-3 text-center text-black mx-auto">
       <h2 className="text-3xl">{props.year}</h2>
       <hr className="border-1 border-purple opacity-20"/>
       {props.groups.map((group, key) => {
@@ -15,10 +14,10 @@ export default function GroupsList(props) {
             href={{
               pathname: "/schedule",
               query: {
-                year: props.yearIndex + 1,
+                year: props.yearIndex == 2 ? "2r" : props.yearIndex + 1,
                 group: props.yearIndex == 0 ? props.groups[key].query : props.groups[key].query,
                 weekDay: currentDate.weekDay.englishName,
-                week: "schedule1"
+                week: props.yearIndex != 2 ? "schedule1" : "schedule2"
               }
             }}>
             {group.name}

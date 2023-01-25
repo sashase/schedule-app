@@ -11,10 +11,10 @@ export default function Timeline(props) {
           : ""
       }`}>
       <p className="w-14">
-        {timeOfLessons[props.year - 1][props.lessonNum].start}
+        {timeOfLessons[props.year == "2r" ? 1 : props.year - 1][props.lessonNum].start}
         <br />
         <span className="font-normal text-sm">
-          {timeOfLessons[props.year - 1][props.lessonNum].end}
+          {timeOfLessons[props.year == "2r" ? 1 : props.year - 1][props.lessonNum].end}
         </span>
       </p>
     </div>

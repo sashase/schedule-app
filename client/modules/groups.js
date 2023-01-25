@@ -58,5 +58,35 @@ export default [
       name: "КН-21",
       query: "kn21"
     }
+  ],
+  [
+    {
+      name: "КП-21",
+      query: "kp21r"
+    },
+    {
+      name: "КП-22",
+      query: "kp22r"
+    },
+    {
+      name: "КСР-21",
+      query: "ksr21r"
+    },
+    {
+      name: "КТ-21",
+      query: "kt21r"
+    },
+    {
+      name: "КМ-21",
+      query: "km21r"
+    },
+    {
+      name: "ІПЗ-21",
+      query: "ipz21r"
+    },
+    {
+      name: "КН-21",
+      query: "kn21r"
+    }
   ]
 ]
