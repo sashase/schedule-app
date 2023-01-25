@@ -11,239 +11,25 @@ XLSX.set_cptable(cpexcel)
 
 const file1 = XLSX.readFile("./file1.xlsx")
 const file2 = XLSX.readFile("./file2.xlsx")
+const file3 = XLSX.readFile("./file3.xlsx")
 
 const workbooks = [
   [file1.Sheets[file1.SheetNames[0]], file1.Sheets[file1.SheetNames[1]]],
-  [file2.Sheets[file2.SheetNames[0]], file2.Sheets[file2.SheetNames[1]]]
+  [file2.Sheets[file2.SheetNames[0]], file2.Sheets[file2.SheetNames[1]]],
+  [file3.Sheets[file3.SheetNames[0]], file3.Sheets[file3.SheetNames[1]]]
 ]
 
 const groups = [
   ["group1", "group2", "group3", "group4", "group5", "group6", "group7"],
-  ["kp21", "kp22", "ksr21", "kt21", "km21", "ipz21", "kn21"]
+  ["kp21", "kp22", "ksr21", "kt21", "km21", "ipz21", "kn21"],
+  ["kp21r", "kp22r", "ksr21r", "kt21r", "km21r", "ipz21r", "kn21r"]
 ]
 
-const days = [
-  "monday",
-  "tuesday",
-  "wednesday",
-  "thursday",
-  "friday",
-  "saturday",
-  "sunday"
-]
-
-let year1 = {
-  schedule1: {
-    group1: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    group2: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    group3: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    group4: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    group5: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    group6: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    group7: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    }
-  },
-  schedule2: {
-    group1: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    group2: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    group3: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    group4: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    group5: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    group6: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    group7: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    }
-  }
-}
-
-let year2 = {
-  schedule1: {
-    kp21: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    kp22: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    ksr21: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    kt21: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    km21: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    ipz21: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    kn21: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    }
-  },
-  schedule2: {
-    kp21: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    kp22: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    ksr21: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    kt21: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    km21: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    ipz21: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    },
-    kn21: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: []
-    }
-  }
-}
+const days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
 
 const startingRows = [
   [2, 9, 16, 23, 30],
+  [2, 8, 14, 20, 26],
   [2, 8, 14, 20, 26]
 ]
 
@@ -285,78 +71,77 @@ const startingColumns = [
   }
 ]
 
-const addToDb = (year, group, groupIndex) => {
-  for (let i = 0; i < 5; i++) {
-    for (let j = 0; j < (year == 0 ? 7 : 6); j++) {
-      const lesson1 =
-        workbooks[year][0][
-          `${startingColumns[groupIndex].lesson}${startingRows[year][i] + j}`
-        ]?.v
-      const teacher1 =
-        workbooks[year][0][
-          `${startingColumns[groupIndex].teacher}${startingRows[year][i] + j}`
-        ]?.v
-      const classRoom1 =
-        workbooks[year][0][
-          `${startingColumns[groupIndex].classRoom}${startingRows[year][i] + j}`
-        ]?.v
-
-      const lesson2 =
-        workbooks[year][1][
-          `${startingColumns[groupIndex].lesson}${startingRows[year][i] + j}`
-        ]?.v
-      const teacher2 =
-        workbooks[year][1][
-          `${startingColumns[groupIndex].teacher}${startingRows[year][i] + j}`
-        ]?.v
-      const classRoom2 =
-        workbooks[year][1][
-          `${startingColumns[groupIndex].classRoom}${startingRows[year][i] + j}`
-        ]?.v
-
-      if (year == 0) {
-        year1.schedule1[group][Object.keys(year1.schedule1[group])[i]].push({
+const addToDb = (year, yearIndex) => {
+  let schedule1 = {}
+  let schedule2 = {}
+  groups[yearIndex].forEach((group, groupKey) => {
+    schedule1[group] = {}
+    schedule2[group] = {}
+    days.forEach((day, dayKey) => {
+      schedule1[group][day] = []
+      schedule2[group][day] = []
+      for (let i = 0; i < (yearIndex == 0 ? 7 : 6); i++) {
+        const lesson1 =
+          workbooks[yearIndex][0][
+            `${startingColumns[groupKey].lesson}${
+              startingRows[yearIndex][dayKey] + i
+            }`
+          ]?.v
+        const teacher1 =
+          workbooks[yearIndex][0][
+            `${startingColumns[groupKey].teacher}${
+              startingRows[yearIndex][dayKey] + i
+            }`
+          ]?.v
+        const classRoom1 =
+          workbooks[yearIndex][0][
+            `${startingColumns[groupKey].classRoom}${
+              startingRows[yearIndex][dayKey] + i
+            }`
+          ]?.v
+        const lesson2 =
+          workbooks[yearIndex][1][
+            `${startingColumns[groupKey].lesson}${
+              startingRows[yearIndex][dayKey] + i
+            }`
+          ]?.v
+        const teacher2 =
+          workbooks[yearIndex][1][
+            `${startingColumns[groupKey].teacher}${
+              startingRows[yearIndex][dayKey] + i
+            }`
+          ]?.v
+        const classRoom2 =
+          workbooks[yearIndex][1][
+            `${startingColumns[groupKey].classRoom}${
+              startingRows[yearIndex][dayKey] + i
+            }`
+          ]?.v
+        schedule1[group][day].push({
           lesson: lesson1 ? lesson1 : "",
           teacher: teacher1 ? teacher1 : "",
           classRoom: classRoom1 ? classRoom1 : ""
         })
-        year1.schedule2[group][Object.keys(year1.schedule2[group])[i]].push({
-          lesson: lesson2 ? lesson2 : "",
-          teacher: teacher2 ? teacher2 : "",
-          classRoom: classRoom2 ? classRoom2 : ""
-        })
-      } else {
-        year2.schedule1[group][Object.keys(year2.schedule1[group])[i]].push({
-          lesson: lesson1 ? lesson1 : "",
-          teacher: teacher1 ? teacher1 : "",
-          classRoom: classRoom1 ? classRoom1 : ""
-        })
-        year2.schedule2[group][Object.keys(year2.schedule2[group])[i]].push({
+        schedule2[group][day].push({
           lesson: lesson2 ? lesson2 : "",
           teacher: teacher2 ? teacher2 : "",
           classRoom: classRoom2 ? classRoom2 : ""
         })
       }
-    }
-  }
+    })
+  })
+  upload(year, schedule1, schedule2)
 }
 
-const uploadDb = async (schedule1, schedule2, year) => {
-  await setDoc(doc(db, `year${year}`, "schedule1"), {
+const upload = async (year, schedule1, schedule2) => {
+  await setDoc(doc(db, year, "schedule1"), {
     ...schedule1
   })
-  await setDoc(doc(db, `year${year}`, "schedule2"), {
+  await setDoc(doc(db, year, "schedule2"), {
     ...schedule2
   })
 }
 
-for (let i = 0; i < 2; i++) {
-  for (let j = 0; j < 7; j++) {
-    addToDb(i, groups[i][j], j)
-  }
+for (let i = 0; i < 3; i++) {
+  addToDb(i != 2 ? `year${i + 1}` : `year${i}r`, i)
 }
-
-uploadDb(year1.schedule1, year1.schedule2, "1")
-uploadDb(year2.schedule1, year2.schedule2, "2")
-
-// !!TO REFACTOR!!
