@@ -16,12 +16,13 @@ export default function Home() {
           <GroupsList year={"I курс"} yearIndex={0} groups={groups[0]} />
           <GroupsList year={"II курс"} yearIndex={1} groups={groups[1]} />
         </div>
-        <GroupsList
-          year={"II Курс дистанційно"}
-          yearIndex={2}
-          groups={groups[2]}
-          className=""
-        />
+        <div className="mb-10">
+          <GroupsList
+            year={"II Курс дистанційно"}
+            yearIndex={2}
+            groups={groups[2]}
+          />
+        </div>
       </div>
     </div>
   )
