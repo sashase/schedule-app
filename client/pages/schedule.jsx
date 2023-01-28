@@ -4,7 +4,7 @@ import { doc, getDoc } from "firebase/firestore"
 import { Fragment, useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { currentDate, weekDays } from "../modules/date"
-import WeekDay from "../components/WeekDay.jsx"
+import DayButtons from "../components/DayButtons.jsx"
 import WeekButtons from "../components/WeekButtons.jsx"
 import Lesson from "../components/Lesson.jsx"
 import getCurrentLesson from "../modules/getCurrentLesson.js"
@@ -58,10 +58,10 @@ export default function Schedule() {
         <title>Schedule</title>
       </Head>
       <div className="lg:mx-20 md:mx-10 mx-0">
-        <div className="flex flex-wrap items-center gap-10 text-center text-2xl font-bold my-7">
+        <div className="flex flex-wrap items-center gap-8 text-center text-2xl font-bold my-7">
           {weekDays.map((weekDay, key) => {
             return (
-              <WeekDay
+              <DayButtons
                 key={key}
                 weekDay={weekDay.englishName}
                 weekDayShortName={weekDay.shortName}

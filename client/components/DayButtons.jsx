@@ -7,11 +7,11 @@ export default function WeekDay(props) {
         pathname: "/schedule",
         query: { ...props.query, weekDay: props.weekDay }
       }}
-      className={
+      className={`${
         props.currentWeekDay == props.weekDay
           ? "text-purple text-3xl"
-          : "text-darkGray"
-      }>
+          : "text-darkGray" 
+      } transition-all duration-300 outline-none lg:m-0 m-auto`}>
       {props.weekDayShortName}
     </Link>
   )

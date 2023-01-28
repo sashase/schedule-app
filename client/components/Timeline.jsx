@@ -7,8 +7,7 @@ export default function Timeline(props) {
       className={`items-center text-center text-lg leading-5 font-bold ${
         props.currentLesson == props.lessonNum &&
         props.currentWeekDay == currentDate.weekDay.englishName
-          ? "text-purple"
-          : ""
+          && "text-purple animate-pulse"
       }`}>
       <p className="w-14">
         {timeOfLessons[props.year == "2r" ? 1 : props.year - 1][props.lessonNum].start}

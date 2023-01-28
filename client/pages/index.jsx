@@ -16,7 +16,7 @@ export default function Home() {
           <GroupsList year={"I курс"} yearIndex={0} groups={groups[0]} />
           <GroupsList year={"II курс"} yearIndex={1} groups={groups[1]} />
         </div>
-        <div className="mb-10">
+        <div className="mb-16">
           <GroupsList
             year={"II Курс дистанційно"}
             yearIndex={2}
