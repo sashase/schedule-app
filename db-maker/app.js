@@ -84,7 +84,7 @@ const addToDb = (year, yearIndex) => {
     days.forEach((day, dayKey) => {
       schedule1[group][day] = []
       schedule2[group][day] = []
-      for (let i = 0; i < (yearIndex === 0 || 3 ? 7 : 6); i++) {
+      for (let i = 0; i < (yearIndex === 0 || yearIndex === 3 ? 7 : 6); i++) {
         const lessons = []
         const teachers = []
         const classRooms = []
